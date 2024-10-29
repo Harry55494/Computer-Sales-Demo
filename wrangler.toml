@@ -1,0 +1,10 @@
+
+name = "wrangler-worker"
+account_id = "7471d06b5005efa1b10686b33e6ed556"
+
+main = "./.cloudflare/worker.js"
+
+build.command = "npm run build"
+
+compatibility_date = "2024-10-29"
+workers_dev = true

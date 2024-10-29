@@ -1,10 +1,7 @@
 
 <script>
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
-    var data = new Request("url-here");
-    fetch(data)
-        .then(response => response.json())
-        .then(data => console.log(data));
+    let { form } = $props();
 </script>
 
 <Table striped={true}>
@@ -65,3 +62,20 @@
         </TableBodyRow>
     </TableBody>
 </Table>
+
+<form method="POST">
+    <label>
+        enter the passphrase
+        <input name="passphrase" autocomplete="off" />
+    </label>
+</form>
+
+{#if form?.incorrect}
+    <p class="error">wrong passphrase!</p>
+{/if}
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
