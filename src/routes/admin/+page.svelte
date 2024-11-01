@@ -1,7 +1,23 @@
 
 <script>
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
-    let { form } = $props();
+    import {onMount} from "svelte";
+
+    async function fetchdata() {
+        const res = await fetch('api/test',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+        });
+        const data = await res.json();
+        console.log(data);
+    }
+
+    onMount(() => {
+        fetchdata();
+    });
+
 </script>
 
 <Table striped={true}>
@@ -62,20 +78,3 @@
         </TableBodyRow>
     </TableBody>
 </Table>
-
-<form method="POST">
-    <label>
-        enter the passphrase
-        <input name="passphrase" autocomplete="off" />
-    </label>
-</form>
-
-{#if form?.incorrect}
-    <p class="error">wrong passphrase!</p>
-{/if}
-
-<style>
-    .error {
-        color: red;
-    }
-</style>

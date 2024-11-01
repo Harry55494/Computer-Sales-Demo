@@ -1,10 +1,11 @@
 
-name = "wrangler-worker"
-account_id = "7471d06b5005efa1b10686b33e6ed556"
+name = "nordic-computers-db"
 
-main = "./.cloudflare/worker.js"
-
-build.command = "npm run build"
+pages_build_output_dir = ".svelte-kit/cloudflare"
 
 compatibility_date = "2024-10-29"
-workers_dev = true
+
+[[d1_databases]]
+binding = "NORDIC_DB"
+database_name = "nordic-computers-demo-db"
+database_id = "3dd79ec3-a2de-41af-8253-bde2c77ca344"

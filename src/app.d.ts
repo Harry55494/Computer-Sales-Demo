@@ -9,6 +9,7 @@ declare global {
 		interface Platform {
 			env: {
 				COUNTER: DurableObjectNamespace;
+				DB: NORDIC_DB;
 			};
 			context: {
 				waitUntil(promise: Promise<any>): void;
