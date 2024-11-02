@@ -1,11 +1,8 @@
-
-name = "nordic-computers-db"
-
+name = "nordic-computers-demo"
 pages_build_output_dir = ".svelte-kit/cloudflare"
 
 compatibility_date = "2024-10-29"
 
-[[d1_databases]]
-binding = "NORDIC_DB"
-database_name = "nordic-computers-demo-db"
-database_id = "3dd79ec3-a2de-41af-8253-bde2c77ca344"
+
+[vars]
+WORKER_AUTH_KEY = "C0A7A37B95B7F1E73A7F9B3A87A5EFFB2FB8834863A6071E19902E37F99A1CD3"

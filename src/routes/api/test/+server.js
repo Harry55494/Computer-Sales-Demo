@@ -1,5 +1,8 @@
 import { json } from '@sveltejs/kit'
-import { WORKER_AUTH_KEY} from "$env/static/private";
+import { WORKER_AUTH_KEY } from '$env/static/private'
+const DB_BASE_URL = "https://nordic-computers-db.harrisons-account.workers.dev/"
+
+console.log( WORKER_AUTH_KEY )
 
 export async function POST({ request }) {
     const body = JSON.parse(await request.text())
@@ -13,12 +16,8 @@ export async function POST({ request }) {
 }
 
 export async function GET() {
-    const test_data = [
-        {name: 'test1', value: 1},
-        {name: 'test2', value: 2},
-        {name: 'test3', value: 3},
-        {name: 'test4', value: WORKER_AUTH_KEY}
-            ]
-    console.log(WORKER_AUTH_KEY);
-    return json(test_data)
+    const request = await fetch(DB_BASE_URL + "api/test?key=" + WORKER_AUTH_KEY)
+    const data = await request.json()
+    console.log(data)
+    return json(data)
 }
