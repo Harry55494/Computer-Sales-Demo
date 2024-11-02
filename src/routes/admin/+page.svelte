@@ -1,7 +1,7 @@
 
 <script>
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
-    import {onMount} from "svelte";
+    import {getContext, onMount} from "svelte";
 
     async function fetchdata() {
         const res = await fetch('api/test',{
@@ -22,15 +22,6 @@
         });
         const data2 = await res2.json();
         console.log(data2);
-
-        const res3 = await fetch('api/test',{
-                method: '_post2',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-        });
-        const data3 = await res3.json();
-        console.log("Res3" + data3);
     }
 
     onMount(() => {
