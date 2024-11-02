@@ -22,6 +22,15 @@
         });
         const data2 = await res2.json();
         console.log(data2);
+
+        const res3 = await fetch('api/test',{
+                method: '_post2',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+        });
+        const data3 = await res3.json();
+        console.log("Res3" + data3);
     }
 
     onMount(() => {
