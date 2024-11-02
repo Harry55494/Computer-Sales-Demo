@@ -6,12 +6,22 @@
     async function fetchdata() {
         const res = await fetch('api/test',{
                 method: 'POST',
+                body: JSON.stringify({'test entry': 'test value'}),
                 headers: {
                     'Content-Type': 'application/json',
                 },
         });
         const data = await res.json();
         console.log(data);
+
+        const res2 = await fetch('api/test',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+        });
+        const data2 = await res2.json();
+        console.log(data2);
     }
 
     onMount(() => {
