@@ -1,24 +1,14 @@
 
 <script>
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
-    import {getContext, onMount} from "svelte";
+    import {onMount} from "svelte";
 
-    async function fetchdata() {
-        const res = await fetch('api/test',{
+    async function fetchdata(){
+        const tablename = 'testtable';
+
+        const res2 = await fetch('api/test?tablename='+tablename, {
                 method: 'POST',
-                body: JSON.stringify({'test entry': 'test value'}),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-        });
-        const data = await res.json();
-        console.log(data);
-
-        const res2 = await fetch('api/test',{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                body: '[{"query": "Select * from testtable"}]',
         });
         const data2 = await res2.json();
         console.log(data2);
