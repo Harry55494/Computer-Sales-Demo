@@ -4,6 +4,7 @@ const DB_BASE_URL = "https://db-access-worker.harrisons-account.workers.dev/"
 
 const decoder = new TextDecoder("utf-8");
 
+// @ts-ignore
 const readStream = async (reader) => {
     let result = '';
     let done, value;
@@ -15,25 +16,11 @@ const readStream = async (reader) => {
 };
 
 export async function POST({ request }) {
-    console.log(request);
+    console.log('Request received:')
+    console.log(request)
+    // @ts-ignore
     const reader = request.body.getReader();
     const body = await readStream(reader);
-    const bodyjson = JSON.parse(body);
-    console.log(bodyjson)
-    var stmt;
-
-    for (const obj of bodyjson) {
-        if (obj.query) {
-            stmt = obj.query.toString(); // Access the 'query' value if it exists
-            break; // Exit the loop once the value is found
-        }
-    }
-
-    if (!stmt) {
-        return json({error: "No query provided"})
-    }
-
-    console.log(stmt)
 
     if (env.ENVIRONMENT === "LOCAL") {
         // Local, so accessing via WORKER
@@ -42,6 +29,7 @@ export async function POST({ request }) {
             {
                 method: "POST",
                 body: body,
+                // @ts-ignore
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": env.WORKER_AUTH_KEY
@@ -54,6 +42,23 @@ export async function POST({ request }) {
     } else if (env.ENVIRONMENT === "REMOTE") {
         // Remote, so accessing directly via binding
         console.log("Accessing via BINDING")
+
+        const bodyjson = JSON.parse(body);
+        console.log(bodyjson)
+        var stmt;
+
+        for (const obj of bodyjson) {
+            if (obj.query) {
+                stmt = obj.query.toString(); // Access the 'query' value if it exists
+                break; // Exit the loop once the value is found
+            }
+        }
+
+        if (!stmt) {
+            return json({error: "No query provided"})
+        }
+
+        console.log(stmt)
 
         const DB = env.NORDIC_DB
         console.log(DB)

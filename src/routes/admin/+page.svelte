@@ -1,12 +1,12 @@
 
 <script>
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+    import { Label, Input, Button } from 'flowbite-svelte';
+
     import {onMount} from "svelte";
 
     async function fetchdata(){
-        const tablename = 'testtable';
-
-        const res2 = await fetch('api/test?tablename='+tablename, {
+        const res2 = await fetch('api/test', {
                 method: 'POST',
                 body: '[{"query": "Select * from testtable"}]',
         });
@@ -14,67 +14,48 @@
         console.log(data2);
     }
 
+    async function submitForm(){
+        const nameinput = document.getElementById('name-input').value;
+        const ageinput = document.getElementById('age-input').value;
+        console.log(nameinput, ageinput);
+        const response = await fetch('api/test', {
+            method: 'POST',
+            body: '[{"query": "INSERT INTO testtable (Name, age) VALUES (\'' + nameinput + '\', ' + ageinput + ');"}]',
+        })
+        const data = await response.json();
+        console.log(data);
+    }
+
     onMount(() => {
         fetchdata();
+        document.getElementById('submitbutton').addEventListener('click', submitForm);
+
+
     });
+
+    const tableHeaders = ["Name", "Age"]
 
 </script>
 
 <Table striped={true}>
     <TableHead>
-        <TableHeadCell>Product name</TableHeadCell>
-        <TableHeadCell>Color</TableHeadCell>
-        <TableHeadCell>Category</TableHeadCell>
-        <TableHeadCell>Price</TableHeadCell>
+        {#each tableHeaders as header}
+            <TableHeadCell>{header}</TableHeadCell>
+        {/each}
         <TableHeadCell>
             <span class="sr-only">Edit</span>
         </TableHeadCell>
     </TableHead>
-    <TableBody tableBodyClass="divide-y">
-        <TableBodyRow>
-            <TableBodyCell>Apple MacBook Pro 17"</TableBodyCell>
-            <TableBodyCell>Sliver</TableBodyCell>
-            <TableBodyCell>Laptop</TableBodyCell>
-            <TableBodyCell>$2999</TableBodyCell>
-            <TableBodyCell>
-                <a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-            </TableBodyCell>
-        </TableBodyRow>
-        <TableBodyRow>
-            <TableBodyCell>Microsoft Surface Pro</TableBodyCell>
-            <TableBodyCell>White</TableBodyCell>
-            <TableBodyCell>Laptop PC</TableBodyCell>
-            <TableBodyCell>$1999</TableBodyCell>
-            <TableBodyCell>
-                <a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-            </TableBodyCell>
-        </TableBodyRow>
-        <TableBodyRow>
-            <TableBodyCell>Magic Mouse 2</TableBodyCell>
-            <TableBodyCell>Black</TableBodyCell>
-            <TableBodyCell>Accessories</TableBodyCell>
-            <TableBodyCell>$99</TableBodyCell>
-            <TableBodyCell>
-                <a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-            </TableBodyCell>
-        </TableBodyRow>
-        <TableBodyRow>
-            <TableBodyCell>Google Pixel Phone</TableBodyCell>
-            <TableBodyCell>Gray</TableBodyCell>
-            <TableBodyCell>Phone</TableBodyCell>
-            <TableBodyCell>$799</TableBodyCell>
-            <TableBodyCell>
-                <a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-            </TableBodyCell>
-        </TableBodyRow>
-        <TableBodyRow>
-            <TableBodyCell>Apple Watch 5</TableBodyCell>
-            <TableBodyCell>Red</TableBodyCell>
-            <TableBodyCell>Wearables</TableBodyCell>
-            <TableBodyCell>$999</TableBodyCell>
-            <TableBodyCell>
-                <a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
-            </TableBodyCell>
-        </TableBodyRow>
-    </TableBody>
+
 </Table>
+
+<div class="mb-6">
+    <Label for="name-input" class="block mb-2">Default input</Label>
+    <Input id="name-input" placeholder="Default input" />
+</div>
+<div class="mb-6">
+    <Label for="age-input" class="block mb-2">Small input</Label>
+    <Input id="age-input" value="number" placeholder="Small input" />
+</div>
+<Button id="submitbutton">Submit</Button>
+

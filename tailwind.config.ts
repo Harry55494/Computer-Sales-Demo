@@ -4,7 +4,7 @@ import type { Config } from 'tailwindcss';
 
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}', './node_modules/flowbite-svelte-blocks/**/*.{html,js,svelte,ts}'],
-  darkMode: 'class',
+  darkMode: 'media',
   theme: {
     extend: {
       colors: {
