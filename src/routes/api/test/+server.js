@@ -15,14 +15,6 @@ const readStream = async (reader) => {
     return result;
 };
 
-export async function GET() {
-    if (env.ENVIRONMENT === "LOCAL" || env.ENVIRONMENT === "REMOTE") {
-        return new Response("TRUE", { status: 200 });
-    } else {
-        return new Response("FALSE", { status: 500 });
-    }
-}
-
 
 export async function POST({ request }) {
     console.log('Request received:')

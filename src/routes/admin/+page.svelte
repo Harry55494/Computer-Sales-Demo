@@ -6,12 +6,6 @@
 
     import {onMount} from "svelte";
 
-    async function checkforapiaccess(){
-        return fetch('api/test', {
-            method: 'GET',
-        })
-    }
-
     async function fetchdata(){
         const res2 = await fetch('api/test', {
                 method: 'POST',
@@ -37,7 +31,10 @@
 
     onMount(() => {
         fetchdata();
-        checkforapiaccess().then((response) => {
+        const status_response = fetch('api/status', {
+            method: 'GET',
+        })
+        status_response.then((response) => {
             console.log(response)
             if(response.status === 200){
                 console.log('API Access is working');
