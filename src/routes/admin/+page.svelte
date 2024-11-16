@@ -1,9 +1,16 @@
 
 <script>
-    import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+    import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Banner } from 'flowbite-svelte';
     import { Label, Input, Button } from 'flowbite-svelte';
+    import {CheckCircleSolid, CloseCircleSolid} from "flowbite-svelte-icons";
 
     import {onMount} from "svelte";
+
+    async function checkforapiaccess(){
+        return fetch('api/test', {
+            method: 'GET',
+        })
+    }
 
     async function fetchdata(){
         const res2 = await fetch('api/test', {
@@ -26,16 +33,48 @@
         console.log(data);
     }
 
+    let serverAvailable = true;
+
     onMount(() => {
         fetchdata();
-        document.getElementById('submitbutton').addEventListener('click', submitForm);
+        checkforapiaccess().then((response) => {
+            console.log(response)
+            if(response.status === 200){
+                console.log('API Access is working');
+                serverAvailable = true;
+            } else {
+                console.log('API Access is not working');
+                serverAvailable = false;
+            }
+        });
 
+        document.getElementById('submitbutton').addEventListener('click', submitForm);
 
     });
 
     const tableHeaders = ["Name", "Age"]
 
 </script>
+
+{#if serverAvailable}
+    <Banner id="default-banner" position="sticky" dismissable={true}>
+        <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+            <CheckCircleSolid class="w-3 h-3 text-green-500 dark:text-green-400 mr-2"/>
+            <span>
+        API Available
+    </span>
+        </p>
+    </Banner>
+{:else}
+    <Banner id="default-banner" position="sticky" dismissable={false}>
+        <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+            <CloseCircleSolid class="w-3 h-3 text-red-500 dark:text-red-400 mr-2"/>
+            <span>
+    API Unavailable - Changes will not be relayed to server
+</span>
+        </p>
+    </Banner>
+{/if}
 
 <Table striped={true}>
     <TableHead>
